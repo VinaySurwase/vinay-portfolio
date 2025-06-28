@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
 import ThreeGlobe from "three-globe";
-import { useThree, Object3DNode, Canvas, extend } from "@react-three/fiber";
+import { useThree, Canvas, extend } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
 declare module "@react-three/fiber" {
   interface ThreeElements {
-    threeGlobe: Object3DNode<ThreeGlobe, typeof ThreeGlobe>;
+    threeGlobe: Node;
   }
 }
 
@@ -59,21 +59,10 @@ interface WorldProps {
   data: Position[];
 }
 
-let numbersOfRings = [0];
+const numbersOfRings: { id: number }[] = [{ id: 0 }];
 
 export function Globe({ globeConfig, data }: WorldProps) {
-  const [globeData, setGlobeData] = useState<
-    | {
-        size: number;
-        order: number;
-        color: (t: number) => string;
-        lat: number;
-        lng: number;
-      }[]
-    | null
-  >(null);
-
-  const globeRef = useRef<ThreeGlobe>();
+  const globeRef = useRef<ThreeGlobe>(null);
 
   const defaultProps = {
     pointSize: globeConfig.pointSize ?? 1,
@@ -97,7 +86,8 @@ export function Globe({ globeConfig, data }: WorldProps) {
       _buildData();
       _buildMaterial();
     }
-  }, [globeRef.current]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const _buildMaterial = () => {
     if (!globeRef.current) return;
@@ -124,7 +114,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
         .showAtmosphere(defaultProps.showAtmosphere)
         .atmosphereColor(defaultProps.atmosphereColor)
         .atmosphereAltitude(defaultProps.atmosphereAltitude)
-        .hexPolygonColor((e) => {
+        .hexPolygonColor(() => {
           return defaultProps.polygonColor;
         });
       startAnimation();
@@ -136,32 +126,41 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
     globeRef.current
       .arcsData(data)
-      .arcStartLat((d) => (d as any).startLat * 1)
-      .arcStartLng((d) => (d as any).startLng * 1)
-      .arcEndLat((d) => (d as any).endLat * 1)
-      .arcEndLng((d) => (d as any).endLng * 1)
-      .arcColor((e: any) => (e as any).color)
-      .arcAltitude((e) => {
-        return (e as any).arcAlt * 1;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .arcStartLat((d: any) => d.startLat * 1)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .arcStartLng((d: any) => d.startLng * 1)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .arcEndLat((d: any) => d.endLat * 1)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .arcEndLng((d: any) => d.endLng * 1)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .arcColor((e: any) => e.color)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .arcAltitude((e: any) => {
+        return e.arcAlt * 1;
       })
-      .arcStroke((e) => {
+      .arcStroke(() => {
         return [0.32, 0.28, 0.3][Math.round(Math.random() * 2)];
       })
       .arcDashLength(defaultProps.arcLength)
-      .arcDashInitialGap((e) => (e as any).order * 1)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .arcDashInitialGap((e: any) => e.order * 1)
       .arcDashGap(15)
-      .arcDashAnimateTime((e) => defaultProps.arcTime);
+      .arcDashAnimateTime(() => defaultProps.arcTime);
 
     globeRef.current
       .pointsData(data)
-      .pointColor((e) => (e as any).color)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .pointColor((e: any) => e.color)
       .pointsMerge(true)
       .pointAltitude(0.0)
       .pointRadius(2);
 
     globeRef.current
       .ringsData([])
-      .ringColor((e: any) => (t: any) => `rgba(255,255,255, ${1 - t})`)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .ringColor(() => (t: any) => `rgba(255,255,255, ${1 - t})`)
       .ringMaxRadius(defaultProps.maxRings)
       .ringPropagationSpeed(RING_PROPAGATION_SPEED)
       .ringRepeatPeriod(
@@ -174,19 +173,41 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
     const interval = setInterval(() => {
       if (!globeRef.current || !data) return;
-      numbersOfRings.push(1);
+      numbersOfRings.push({ id: Date.now() });
       globeRef.current.ringsData(numbersOfRings);
     }, 2000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [globeRef.current, data]);
+  }, [data]);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container && !globeRef.current) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const globeInstance = new (ThreeGlobe as any)();
+      globeRef.current = globeInstance;
+      container.appendChild(globeInstance);
+      _buildData();
+      _buildMaterial();
+    }
+    // Cleanup
+    return () => {
+      if (container && globeRef.current) {
+        while (container.firstChild) {
+          container.removeChild(container.firstChild);
+        }
+        globeRef.current = null;
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <>
-      <threeGlobe ref={globeRef} />
-    </>
+    <div ref={containerRef} />
   );
 }
 
@@ -197,7 +218,7 @@ export function WebGLRendererConfig() {
     gl.setPixelRatio(window.devicePixelRatio);
     gl.setSize(size.width, size.height);
     gl.setClearColor(0xffaaff, 0);
-  }, []);
+  }, [gl, size.width, size.height]);
 
   return null;
 }
@@ -242,7 +263,7 @@ export function World(props: WorldProps) {
 }
 
 export function hexToRgb(hex: string) {
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result
     ? {
         r: parseInt(result[1], 16),

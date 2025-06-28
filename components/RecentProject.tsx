@@ -28,7 +28,7 @@ const RecentProject = () => {
           <div className='w-24 h-2 mt-5 rounded-lg bg-gradient-to-r from-slate-300 to-slate-500'></div>
         </LampContainer>
         <div className='flex flex-wrap items-center justify-center p-4 gap-y-28 gap-x-24 -mt-64'>
-          {projects.length > 0 ? projects.map(({id, title, des, img, iconLists, link, color}) => (
+          {projects.length > 0 ? projects.map(({id, title, des, img, link}) => (
             <div key={id} className='lg:min-h-[22.5rem] h-[25rem] flex items-center justify-center sm:w-96 w-[60vw]'>
               <PinContainer title={link} href={link} disableMainLink={true}>
                 <div className='relative flex items-center justify-center sm:w-96 w-[80vw] overflow-hidden h-[20vh] lg:h-[30vh] mb-10'>

@@ -12,6 +12,7 @@ export const ParallaxScroll = ({
   images: string[];
   className?: string;
 }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const gridRef = useRef<any>(null);
   const { scrollYProgress } = useScroll({
     container: gridRef, // remove this if your container is not fixed height
