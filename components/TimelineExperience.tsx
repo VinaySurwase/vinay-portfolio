@@ -37,7 +37,7 @@ const TimelineExperience = () => {
   ];
 
   return (
-    <section id="experience" className="py-20 px-4 relative overflow-hidden">
+    <section id="experience" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/30 via-purple-950/20 to-cyan-950/30" />

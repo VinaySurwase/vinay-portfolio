@@ -36,7 +36,7 @@ const aboutCards = [
 
 export default function GlassAbout() {
   return (
-    <section id="about" className="relative py-32 px-4">
+    <section id="about" className="relative py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -44,7 +44,7 @@ export default function GlassAbout() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-12 sm:mb-16 md:mb-20"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
@@ -53,11 +53,11 @@ export default function GlassAbout() {
             viewport={{ once: true }}
             className="inline-block"
           >
-            <h2 className="text-5xl lg:text-7xl font-bold mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
                 ABOUT
               </span>
-              <span className="text-white ml-4">ME</span>
+              <span className="text-white ml-2 sm:ml-4">ME</span>
             </h2>
           </motion.div>
           <motion.p
@@ -65,14 +65,14 @@ export default function GlassAbout() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
-            className="text-xl text-white/70 max-w-3xl mx-auto"
+            className="text-base sm:text-lg md:text-xl text-white/70 max-w-3xl mx-auto px-4"
           >
             Exploring the intersection of technology and creativity
           </motion.p>
         </motion.div>
 
         {/* Glass Cards Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           {aboutCards.map((card, index) => (
             <motion.div
               key={card.id}
@@ -81,31 +81,31 @@ export default function GlassAbout() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ 
-                scale: 1.05, 
-                rotateY: 5,
+                scale: 1.02, 
+                rotateY: 2,
                 boxShadow: "0 25px 50px -12px rgba(0, 255, 255, 0.25)"
               }}
               className="group relative"
             >
               {/* Glass Card */}
-              <div className={`relative h-80 bg-gradient-to-br ${card.gradient} backdrop-blur-md border border-white/10 rounded-2xl p-6 overflow-hidden transition-all duration-500 group-hover:border-cyan-400/30`}>
+              <div className={`relative h-72 sm:h-80 md:h-96 lg:h-80 xl:h-96 bg-gradient-to-br ${card.gradient} backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-6 overflow-hidden transition-all duration-500 group-hover:border-cyan-400/30`}>
                 {/* Content */}
                 <div className="relative z-10 h-full flex flex-col">
                   {/* Icon */}
                   <motion.div
                     whileHover={{ scale: 1.2, rotate: 10 }}
-                    className="text-6xl mb-6 group-hover:drop-shadow-lg transition-all duration-300"
+                    className="text-4xl sm:text-5xl md:text-6xl mb-4 sm:mb-6 group-hover:drop-shadow-lg transition-all duration-300"
                   >
                     {card.icon}
                   </motion.div>
 
                   {/* Title */}
-                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors duration-300">
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-3 sm:mb-4 group-hover:text-cyan-400 transition-colors duration-300">
                     {card.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-white/70 leading-relaxed group-hover:text-white/90 transition-colors duration-300">
+                  <p className="text-sm sm:text-base text-white/70 leading-relaxed group-hover:text-white/90 transition-colors duration-300 flex-grow">
                     {card.description}
                   </p>
                 </div>
@@ -128,12 +128,12 @@ export default function GlassAbout() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
           viewport={{ once: true }}
-          className="mt-20"
+          className="mt-12 sm:mt-16 md:mt-20"
         >
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {[
               { number: "10+", label: "Projects" },
-              { number: "5+", label: "Technologies" },
+              { number: "18+", label: "Technologies" },
               { number: "2+", label: "Years Coding" },
               { number: "∞", label: "Learning" }
             ].map((stat, index) => (
@@ -145,14 +145,14 @@ export default function GlassAbout() {
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:border-cyan-400/30 transition-all duration-300">
+                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 hover:border-cyan-400/30 transition-all duration-300">
                   <motion.div
                     whileHover={{ scale: 1.1 }}
-                    className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-2"
+                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-1 sm:mb-2"
                   >
                     {stat.number}
                   </motion.div>
-                  <div className="text-white/70 font-medium">{stat.label}</div>
+                  <div className="text-xs sm:text-sm md:text-base text-white/70 font-medium">{stat.label}</div>
                 </div>
               </motion.div>
             ))}

@@ -15,6 +15,7 @@ const navItems = [
 export default function NightSkyNav() {
   const [visible, setVisible] = useState(true);
   const [activeSection, setActiveSection] = useState("home");
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,8 +23,18 @@ export default function NightSkyNav() {
       setVisible(current < 100 || current < window.scrollY);
     };
 
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return (
@@ -34,17 +45,19 @@ export default function NightSkyNav() {
         y: visible ? 0 : -10 
       }}
       transition={{ duration: 0.3 }}
-      className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50"
+      className="fixed top-4 sm:top-6 left-1/2 transform -translate-x-1/2 z-50 w-[95%] sm:w-auto"
     >
-      <div className="bg-black/20 backdrop-blur-md border border-white/10 rounded-full px-8 py-4 shadow-2xl">
-        <div className="flex items-center space-x-8">
+      <div className="bg-black/20 backdrop-blur-md border border-white/10 rounded-full px-4 sm:px-6 md:px-8 py-3 sm:py-4 shadow-2xl">
+        <div className={`flex items-center justify-between sm:justify-center ${
+          isMobile ? 'space-x-2' : 'space-x-4 md:space-x-8'
+        }`}>
           {navItems.map((item) => (
             <motion.a
               key={item.name}
               href={item.link}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 ${
+              className={`relative px-2 sm:px-3 md:px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-300 ${
                 activeSection === item.name.toLowerCase()
                   ? "text-cyan-400"
                   : "text-white/70 hover:text-white"
@@ -58,7 +71,7 @@ export default function NightSkyNav() {
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
-              <span className="relative z-10">{item.name}</span>
+              <span className="relative z-10">{isMobile ? item.name.slice(0, 1) : item.name}</span>
             </motion.a>
           ))}
         </div>
