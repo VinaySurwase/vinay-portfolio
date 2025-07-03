@@ -12,27 +12,7 @@ export const navItems = [
 
   
   export const gridItems = [
-    // {
-    //   id: 1,
-    //   title: " I prioritize getting the work done by fostering <span class='text-orange-300'>open communication</span>"
-    //    ,
-    //   description: "",
-    //   className: "lg:col-span-3 md:col-span-6 md:row-span-4 lg:min-h-[60vh]",
-    //   imgClassName: "w-full h-full",
-    //   titleClassName: "justify-end",
-    //   img: "/2112.i301.031.S.m004.c13.UI and UX designers concepts isometric composition.jpg",
-    //   spareImg: "",
-    // },
-    // {
-    //   id: 2,
-    //   title: "Building my linguistic skills for <span class='text-emerald-300'>global communication</span>",
-    //   description: "",
-    //   className: "lg:col-span-3 md:col-span-6 md:row-span-3 ",
-    //   imgClassName: "",
-    //   titleClassName: "justify-start",
-    //   img: "",
-    //   spareImg: "",
-    // },
+
     {
       id: 4,
       title: " I am a <span class='text-sky-400'>Tech enthusiast</span> with a passion for development.",
@@ -93,25 +73,7 @@ export const navItems = [
       iconLists: ["/esp8266.svg", "/arduino.svg", "/android.svg", "/wifi.svg", "/ir-sensor.svg"],
       link: "https://github.com/VinaySurwase/Wifi-Control-Line-Follower-Bot-using-NodeMCU",
       color: "text-green-200"
-    },
-    // {
-    //   id: 3,
-    //   title: "Alive Docs - An realtime docs.",
-    //   des: "An web application which allows users to work with each other on docs on realtime , its very useful for jotting down notes to coming up with workflows , with features to be able to comment on particular parts of lines , or even words. Making an immersive experience overall.",
-    //   img: "/Alivedocs.png",
-    //   iconLists: ["/re.svg", "/tail.svg", "/ts.svg", "/three.svg", "/c.svg"],
-    //   link: "https://alive-docs.vercel.app/",
-    //   color:"text-red-200"  
-    // },
-    // {
-    //   id: 4,
-    //   title: "A location tracking App using Leaflet and Socket.io",
-    //   des: "By using the Socket.io connection port and Leaflet API, I have created a location tracking app",
-    //   img: "/locationtrack.png",
-    //   iconLists: ["/next.svg", "/tail.svg", "/ts.svg", "/ejs-svgrepo-com.svg", "/gsap.svg"],
-    //   link: "https://github.com/VinaySurwase/Live-Location-Tracker",
-    //   color:"text-purple-200"
-    // },
+    }
   ];
   
  
@@ -172,7 +134,7 @@ export const navItems = [
     "/Express1.png",
     "/Nest.png",
     "/Typescript.png",
-    "/Javascript.png",,
+    "/Javascript.png",
     "/Django.png",
     "/Vite.png",
     "/Tailwindcs.png",
