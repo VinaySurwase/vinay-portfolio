@@ -8,13 +8,13 @@ import LiquidCursor from "@/components/LiquidCursor";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Vinay Surwase - Futuristic Portfolio",
+  title: "Vinay Surwase : Portfolio",
   description: "Explore a immersive portfolio featuring cutting-edge web development, AI/ML projects, and futuristic design. Experience the future of digital portfolios.",
   keywords: "Vinay Surwase, Portfolio, Full Stack Developer, React, Next.js, AI/ML, Futuristic Design, Web Development",
   authors: [{ name: "Vinay Surwase" }],
   creator: "Vinay Surwase",
   openGraph: {
-    title: "Vinay Surwase - Futuristic Portfolio",
+    title: "Vinay Surwase : Portfolio",
     description: "Step into a digital realm where code meets creativity. Discover innovative projects and immersive experiences.",
     type: "website",
   },
