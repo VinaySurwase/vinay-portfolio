@@ -1,13 +1,11 @@
-import { color } from "framer-motion";
-
 export const navItems = [
-    { name: "About", link: "#about" },
-    { name: "Projects", link: "#projects" },
-    {name:"TechStack",link:"#tech"},
-    { name: "Experience", link: "#experience" },
-    { name: "Contact", link: "#contact" },
-   
-  ];
+    { name: "Canvas", link: "#hero", icon: "🎨" },
+    { name: "About", link: "#about", icon: "🌟" },
+    { name: "Gallery", link: "#projects", icon: "🖼️" },
+    { name: "Skills", link: "#skills", icon: "⚡" },
+    { name: "Journey", link: "#experience", icon: "🚀" },
+    { name: "Connect", link: "#contact", icon: "💫" },
+];
 
 
   
