@@ -1,0 +1,5 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#11141A"/>
+  <circle cx="200" cy="200" r="80" fill="#7C83FF" opacity="0.2"/>
+  <text x="200" y="210" font-family="Arial, sans-serif" font-size="100" fill="#7C83FF" text-anchor="middle">VS</text>
+</svg>
