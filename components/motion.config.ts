@@ -129,9 +129,9 @@ export const imageZoom = {
 
 // Contact link hover
 export const contactHover = {
-  rest: { x: 0 },
+  rest: { y: 0 },
   hover: {
-    x: 4,
+    y: -4,
     transition: {
       duration: 0.2,
       ease: customEase,
@@ -170,10 +170,10 @@ export const mobileMenu: Variants = {
     opacity: 1,
     height: "auto",
     transition: {
-      duration: 0.4,
+      duration: 0.2,
       ease: customEase,
-      staggerChildren: 0.05,
-      delayChildren: 0.1,
+      staggerChildren: 0.03,
+      delayChildren: 0,
     },
   },
 };
@@ -188,7 +188,7 @@ export const mobileMenuItem: Variants = {
     opacity: 1,
     x: 0,
     transition: {
-      duration: 0.3,
+      duration: 0.15,
       ease: customEase,
     },
   },

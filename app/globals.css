@@ -4,6 +4,7 @@
 
 :root {
   --font-inter: "Inter", system-ui, -apple-system, sans-serif;
+  --accent-rgb: 124, 131, 255;
 }
 
 * {

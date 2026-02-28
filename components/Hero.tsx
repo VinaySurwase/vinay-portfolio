@@ -5,19 +5,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { heroContainer, fadeUpItem, profileImage } from "./motion.config";
 
+const phrases = [
+  "Computer Science Engineering Student",
+  "Software Developer & AI Enthusiast",
+  "Competitive Programmer"
+];
+
 export default function Hero() {
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
-  
-  const phrases = [
-    "Computer Science Engineering Student",
-    "Software Developer & AI Enthusiast",
-    "Competitive Programmer"
-  ];
   
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentPhraseIndex((prevIndex) => (prevIndex + 1) % phrases.length);
-    }, 3000); // Change phrase every 3 seconds
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
@@ -95,7 +95,7 @@ export default function Hero() {
         {/* Subtitle with Slide Animation */}
         <motion.div
           variants={fadeUpItem}
-          className="text-2xl md:text-3xl lg:text-4xl font-medium mb-6 h-10 md:h-12 lg:h-14 flex items-center justify-center overflow-hidden"
+          className="text-2xl md:text-3xl lg:text-4xl font-medium mb-6 min-h-[2.5rem] sm:min-h-[3rem] md:min-h-[3.5rem] lg:min-h-[4rem] flex items-center justify-center overflow-hidden"
         >
           <AnimatePresence mode="wait">
             <motion.span

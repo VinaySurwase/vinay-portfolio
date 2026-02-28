@@ -22,6 +22,8 @@ const skillCategories = [
   {
     category: "Frontend",
     skills: [
+      { name: "HTML5", icon: "/skills/html5.svg" },
+      { name: "CSS3", icon: "/skills/css3.svg" },
       { name: "React", icon: "/skills/react.svg" },
       { name: "Next.js", icon: "/skills/nextjs.svg" },
       { name: "Tailwind CSS", icon: "/skills/tailwindcss.svg" },
@@ -58,8 +60,8 @@ export default function Skills() {
     <section id="skills" className="py-20 px-6 bg-bg-secondary relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 right-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }} />
-        <div className="absolute bottom-1/4 left-20 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute top-1/4 right-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse will-change-[opacity]" style={{ animationDelay: '0.5s' }} />
+        <div className="absolute bottom-1/4 left-20 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse will-change-[opacity]" style={{ animationDelay: '1.5s' }} />
       </div>
       
       <MotionWrapper variants={sectionContainer} className="max-w-6xl mx-auto relative z-10">

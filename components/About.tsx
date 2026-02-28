@@ -8,8 +8,8 @@ export default function About() {
     <section id="about" className="py-20 px-6 bg-bg-secondary relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-20 left-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse will-change-[opacity]" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse will-change-[opacity]" style={{ animationDelay: '1s' }} />
       </div>
       
       <MotionWrapper variants={sectionContainer} className="max-w-6xl mx-auto relative z-10">
@@ -48,7 +48,7 @@ export default function About() {
         {/* Highlights Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <MotionWrapper variants={fadeUpItem}>
-            <div className="glass rounded-2xl p-8 border border-border hover:border-accent/50 transition-all duration-300 group">
+            <div className="glass rounded-2xl p-8 border-2 border-border hover:border-accent/50 transition-all duration-300 group">
               <div className="flex flex-col items-center text-center h-full">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <svg className="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import MotionWrapper from "./MotionWrapper";
 import { sectionContainer, fadeUpItem, hoverLift, imageZoom } from "./motion.config";
 
@@ -12,7 +12,7 @@ const projects = [
     shortDescription: "Real-time AI system identifying fire, smoke, and accidents with instant alerts.",
     description:
       "An end-to-end, real-time AI-powered emergency detection system designed to identify fire, smoke, and road accidents at scale. The solution combines high-performance computer vision with a low-latency backend for live video processing and alert generation. Integrated cloud-based media handling and instant messaging notifications automate incident reporting, significantly reducing manual monitoring while enabling fast and reliable emergency response.",
-    image: "/projects/AI_Powered_Real_Time_Emergency Detection.png",
+    image: "/projects/AI_Powered_Real_Time_Emergency_Detection.png",
     tech: ["Python", "YOLOv8", "OpenCV", "Flask", "Cloudinary API", "Twilio API"],
     github: "https://github.com/VinaySurwase/smart-surveillance-system",
     live: "https://github.com/VinaySurwase/smart-surveillance-system",
@@ -41,6 +41,63 @@ const projects = [
 
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // MAJ-004: Lock body scroll when modal is open
+  useEffect(() => {
+    if (selectedProject !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [selectedProject]);
+
+  // MAJ-003: Escape key to close modal
+  useEffect(() => {
+    if (selectedProject === null) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedProject(null);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [selectedProject]);
+
+  // MAJ-003: Focus trap — focus modal when opened
+  useEffect(() => {
+    if (selectedProject !== null && modalRef.current) {
+      const focusableEls = modalRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusableEls.length > 0) {
+        focusableEls[0].focus();
+      }
+
+      const trapFocus = (e: KeyboardEvent) => {
+        if (e.key !== 'Tab' || !modalRef.current) return;
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      };
+      document.addEventListener('keydown', trapFocus);
+      return () => document.removeEventListener('keydown', trapFocus);
+    }
+  }, [selectedProject]);
 
   return (
     <section id="projects" className="py-20 px-6">
@@ -138,8 +195,12 @@ export default function Projects() {
               exit={{ opacity: 0 }}
               onClick={() => setSelectedProject(null)}
               className="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-6"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="modal-project-title"
             >
               <motion.div
+                ref={modalRef}
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
@@ -150,6 +211,7 @@ export default function Projects() {
                 {/* Close Button */}
                 <button
                   onClick={() => setSelectedProject(null)}
+                  aria-label="Close dialog"
                   className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors duration-300"
                 >
                   <svg className="w-5 h-5 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -158,7 +220,7 @@ export default function Projects() {
                 </button>
 
                 {/* Project Details */}
-                <h3 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
+                <h3 id="modal-project-title" className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
                   {projects[selectedProject].title}
                 </h3>
                 

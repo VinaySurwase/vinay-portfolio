@@ -1,13 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { navbar, mobileMenu, mobileMenuItem } from "./motion.config";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
+  const mobileNavRef = useRef<HTMLElement>(null);
+  const isAnimatingRef = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,6 +47,32 @@ export default function Navbar() {
     };
   }, [isMinimized]);
 
+  // MAJ-004: Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+  // MIN-007: Close mobile menu on outside click
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (mobileNavRef.current && !mobileNavRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isOpen]);
+
   const navLinks = [
     { name: "About", href: "#about" },
     { name: "Skills", href: "#skills" },
@@ -53,27 +81,25 @@ export default function Navbar() {
     { name: "Contact", href: "#contact" },
   ];
 
-  const handleClick = () => {
+  // MIN-008: Close menu first, then scroll to section
+  const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
     setIsOpen(false);
-  };
+    setTimeout(() => {
+      const target = document.querySelector(href);
+      target?.scrollIntoView({ behavior: 'smooth' });
+    }, 150);
+  }, []);
 
-  // Desktop Navigation
-  const desktopNav = (
-    <div className="hidden md:flex items-center justify-center gap-1 px-6 py-3 glass rounded-full shadow-lg shadow-black/10">
-      {navLinks.map((link, index) => (
-        <motion.a
-          key={link.name}
-          href={link.href}
-          className="relative px-4 py-2 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-300 group"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          {link.name}
-          <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-accent rounded-full group-hover:w-3/4 transition-all duration-300" />
-        </motion.a>
-      ))}
-    </div>
-  );
+  // CRIT-001: Toggle with animation guard to prevent rapid-tap state thrashing
+  const toggleMenu = useCallback(() => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setIsOpen((prev) => !prev);
+    setTimeout(() => {
+      isAnimatingRef.current = false;
+    }, 250);
+  }, []);
 
   return (
     <>
@@ -107,7 +133,7 @@ export default function Navbar() {
               whileTap={{ scale: 0.98 }}
             >
               {link.name}
-              <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-accent rounded-full group-hover:w-3/4 transition-all duration-300" />
+              <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-accent rounded-full group-hover:w-3/4 group-focus-visible:w-3/4 group-active:w-3/4 transition-all duration-300" />
             </motion.a>
           ))}
         </div>
@@ -115,6 +141,7 @@ export default function Navbar() {
 
       {/* Mobile Navigation */}
       <motion.nav
+        ref={mobileNavRef}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
@@ -130,7 +157,7 @@ export default function Navbar() {
             paddingTop: "14px",
             paddingBottom: "14px",
           }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
         >
           <motion.span 
             className="text-sm font-semibold text-text-primary whitespace-nowrap"
@@ -140,12 +167,12 @@ export default function Navbar() {
               width: isOpen ? "auto" : 0,
               marginRight: isOpen ? "8px" : 0
             }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
           >
             Menu
           </motion.span>
           <button
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={toggleMenu}
             className="w-7 h-7 flex flex-col items-center justify-center gap-1.5 flex-shrink-0"
             aria-label="Toggle menu"
             aria-expanded={isOpen}
@@ -181,7 +208,7 @@ export default function Navbar() {
                 key={link.name}
                 href={link.href}
                 variants={mobileMenuItem}
-                onClick={handleClick}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="block px-4 py-3 text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-white/5 rounded-xl transition-colors duration-200"
               >
                 {link.name}
