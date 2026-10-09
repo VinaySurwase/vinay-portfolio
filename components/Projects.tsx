@@ -6,38 +6,136 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import MotionWrapper from "./MotionWrapper";
 import { sectionContainer, fadeUpItem, hoverLift, imageZoom } from "./motion.config";
 
+
 const projects = [
   {
+    title: "ViniBot: Autonomous Grape Harvesting Robot",
+    shortDescription:
+      "Autonomous grape harvesting using multi-camera vision, edge AI, and robotic control.",
+    description:
+      "An autonomous grape-harvesting system integrating tri-camera perception, stereo depth estimation, YOLOv8 segmentation, and embedded robotic control. Built a 7-state finite-state machine to coordinate detection, approach, localization, cutting, and error recovery. Optimized vision inference for Raspberry Pi deployment and implemented WebSocket-based telemetry for real-time monitoring through an Android companion app.",
+    image: "/projects/ViniBot.png",
+    tech: [
+      "Python",
+      "OpenCV",
+      "YOLOv8",
+      "NCNN",
+      "Stereo Vision",
+      "Raspberry Pi 5",
+      "ESP32",
+      "STM32",
+      "FreeRTOS",
+      "WebSockets",
+    ],
+    github:
+      "https://github.com/VinaySurwase/ViniBot-Tri-Camera-Autonomous-Grape-Harvesting-Robot",
+    live: "https://github.com/VinaySurwase/ViniBot-android",
+  },
+  {
+    title: "Ancient Vision: AI-Powered Traditional Art Generation",
+    shortDescription:
+      "Transform photographs into traditional art styles using fine-tuned diffusion models.",
+    description:
+      "A full-stack generative AI platform that transforms photographs into traditional Japanese and Indian art styles using Stable Diffusion, custom LoRA models, and ControlNet. Integrated edge, depth, and pose conditioning to preserve structural consistency during artistic transformations. Built a React frontend and Flask APIs supporting image uploads, browser-based camera capture, model selection, and configurable generation workflows.",
+    image: "/projects/AncientVision.png",
+    tech: [
+      "Python",
+      "PyTorch",
+      "Stable Diffusion",
+      "LoRA",
+      "ControlNet",
+      "HuggingFace Diffusers",
+      "Flask",
+      "React",
+      "OpenCV",
+      "Docker",
+    ],
+    github: "https://github.com/VinaySurwase/Ancient-Vision",
+    live: "https://github.com/VinaySurwase/Ancient-Vision",
+  },
+  {
+    title: "FusionIIIT: Primary Health Center Management",
+    shortDescription:
+      "Full-stack healthcare management with role-based access and automated workflows.",
+    description:
+      "Contributed to the redevelopment of FusionIIIT's Primary Health Center module, serving institute healthcare workflows. As team lead for the module, helped re-architect backend logic into service and selector layers and implemented role-based access control, REST APIs, prescription workflows, medicine inventory management, doctor scheduling, and multi-stage reimbursement processing. Integrated Django REST Framework, PostgreSQL, and React to support coordinated patient and administrative workflows.",
+    image: "/projects/project-placeholder.svg",
+    tech: [
+      "Python",
+      "Django",
+      "Django REST Framework",
+      "PostgreSQL",
+      "React",
+      "JavaScript",
+      "Mantine UI",
+      "RBAC",
+      "REST APIs",
+    ],
+    github: "https://github.com/VinaySurwase/Fusion",
+    live: "https://github.com/VinaySurwase/Fusion-client",
+  },
+  {
+    title: "LNG-GeoEnv: Supply Chain Crisis Simulation",
+    shortDescription:
+      "A configurable reinforcement learning environment for LNG logistics under geopolitical disruptions.",
+    description:
+      "Developed a reproducible simulation environment for LNG supply chain decision-making under demand shocks, route disruptions, price volatility, and geopolitical crises. Modeled shipping corridors, storage terminals, inventory constraints, and operational risks, with configurable scenarios and multi-objective reward functions. Exposed standardized environment APIs through FastAPI and validated agent interactions using strongly typed Pydantic action and observation schemas.",
+    image: "/projects/LNGGeoEnv.png",
+    tech: [
+      "Python",
+      "Reinforcement Learning",
+      "FastAPI",
+      "Pydantic",
+      "Docker",
+      "OpenEnv",
+      "Simulation",
+    ],
+    github: "https://github.com/VinaySurwase/lng-geoenv",
+    live: "https://huggingface.co/spaces/Vinay127/lng-geoenv",
+  },
+  {
     title: "AI-Powered Real-Time Emergency Detection",
-    shortDescription: "Real-time AI system identifying fire, smoke, and accidents with instant alerts.",
+    shortDescription:
+      "Detect fire, smoke, and road accidents in video streams with automated alerts.",
     description:
-      "An end-to-end, real-time AI-powered emergency detection system designed to identify fire, smoke, and road accidents at scale. The solution combines high-performance computer vision with a low-latency backend for live video processing and alert generation. Integrated cloud-based media handling and instant messaging notifications automate incident reporting, significantly reducing manual monitoring while enabling fast and reliable emergency response.",
+      "Built a computer vision surveillance system using fine-tuned YOLOv8 models and OpenCV to detect emergencies in live streams and uploaded videos. Developed a Flask backend for video processing and event handling, integrated Cloudinary for incident media storage, and connected Twilio WhatsApp notifications for emergency alerts. The reported inference performance reached approximately 25 FPS, subject to the deployment hardware and test conditions.",
     image: "/projects/AI_Powered_Real_Time_Emergency_Detection.png",
-    tech: ["Python", "YOLOv8", "OpenCV", "Flask", "Cloudinary API", "Twilio API"],
-    github: "https://github.com/VinaySurwase/smart-surveillance-system",
-    live: "https://github.com/VinaySurwase/smart-surveillance-system",
+    tech: [
+      "Python",
+      "YOLOv8",
+      "OpenCV",
+      "Flask",
+      "Cloudinary API",
+      "Twilio WhatsApp API",
+    ],
+    github:
+      "https://github.com/VinaySurwase/smart-surveillance-system",
+    live:
+      "https://github.com/VinaySurwase/smart-surveillance-system",
   },
   {
-    title: "UkiyoFusion: AI-Powered Image-to-Ukiyo-e Converter",
-    shortDescription: "Transform modern photos into traditional Japanese Ukiyo-e art using AI.",
+    title: "Anukriti: AI-Powered Statue Restoration",
+    shortDescription:
+      "Restore damaged statue imagery with diffusion-based inpainting and automated masks.",
     description:
-      "Revolutionary deep learning application that transforms modern photographs into traditional Japanese Ukiyo-e masterpieces using fine-tuned Stable Diffusion with LoRA. This project preserves the artistic essence of centuries-old art forms while making them accessible through cutting-edge AI technology.",
-    image: "/projects/UkiyoFusion.png",
-    tech: ["PyTorch", "HuggingFace Diffusers", "Transformers", "PEFT", "ControlNet", "Google Colab"],
-    github: "https://github.com/VinaySurwase/UkiyoFusion",
-    live: "https://github.com/VinaySurwase/UkiyoFusion",
-  },
-  {
-    title: "SmartBot: Artistic Robotics",
-    shortDescription: "Intelligent robot with WiFi control and autonomous navigation capabilities.",
-    description:
-      "Intelligent robotics project that combines technical precision with artistic movement patterns. Features dual-mode operation with WiFi-controlled choreography and autonomous navigation, demonstrating that robotics can be both functional and beautiful.",
-    image: "/projects/SmartBot.png",
-    tech: ["NodeMCU", "Arduino IDE", "IoT", "Android Development", "C++", "WiFi", "Sensor Fusion"],
-    github: "https://github.com/VinaySurwase/Wifi-Control-Line-Follower-Bot-using-NodeMCU",
-    live: "https://github.com/VinaySurwase/Wifi-Control-Line-Follower-Bot-using-NodeMCU",
+      "Developed an AI-powered restoration application for damaged statues and sculptures using Stable Diffusion inpainting and custom LoRA weights. Implemented automated damage-mask generation with OpenCV image-processing techniques and built Flask APIs for model initialization and restoration. Integrated a React interface with configurable inference parameters and device-aware execution for CUDA, Apple MPS, and CPU environments.",
+    image: "/projects/Anukriti.png",
+    tech: [
+      "Python",
+      "PyTorch",
+      "Stable Diffusion Inpainting",
+      "LoRA",
+      "Diffusers",
+      "OpenCV",
+      "Flask",
+      "React",
+      "Docker",
+    ],
+    github: "https://github.com/VinaySurwase/Anukriti",
+    live: "https://github.com/VinaySurwase/Anukriti",
   },
 ];
+
 
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
